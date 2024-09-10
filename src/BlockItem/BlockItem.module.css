@@ -1,0 +1,20 @@
+.block {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  background-color: rgb(204, 219, 232);
+  border: 1px solid #666666;
+}
+
+.hidden {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
+  background-color: #ffffff;
+  border: 1px solid #666666;
+}
+.hasBomb {
+  background-color: red;
+  border: 1px solid red;
+}
