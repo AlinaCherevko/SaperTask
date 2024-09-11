@@ -5,6 +5,7 @@ import { useState } from "react";
 
 function BlockItem({ isMine }) {
   const [hasFlag, setHasFlag] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const onBlockClick = (e) => {
     if (hasFlag) return;
@@ -13,13 +14,16 @@ function BlockItem({ isMine }) {
       e.currentTarget.classList.remove(style.hidden);
       e.currentTarget.classList.add(style.hasBomb);
     }
-
+    if (isOpen) return;
+    setIsOpen(true);
     e.currentTarget.classList.remove(style.hidden);
     e.currentTarget.classList.add(style.block);
   };
 
   const onRightMouseClick = (e) => {
     e.preventDefault();
+    if (isOpen) return;
+
     setHasFlag(!hasFlag);
   };
   return (
@@ -43,4 +47,5 @@ export default BlockItem;
 
 BlockItem.propTypes = {
   isMine: PropTypes.bool,
+  // isOpen: PropTypes.bool,
 };
