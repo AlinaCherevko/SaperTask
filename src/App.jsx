@@ -7,6 +7,7 @@ import style from "./App.module.css";
 function App() {
   const [width, setWidth] = useState(240);
   const [height, setHeight] = useState(240);
+  const [bombNumber, setBombNumber] = useState(10);
 
   const inputWidthChange = (value) => {
     setWidth(value);

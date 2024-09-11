@@ -3,7 +3,7 @@ import BlockItem from "../Blockitem/Blockitem";
 import PropTypes from "prop-types";
 
 function BlockBox({ width = "240px", height = "240px" }) {
-  const bombNumber = 10;
+  const bombNumber = 20;
   const blockSize = 24;
   const rows = height / blockSize;
   const columns = width / blockSize;
@@ -17,7 +17,6 @@ function BlockBox({ width = "240px", height = "240px" }) {
     id: index,
     isOpen: false,
     isMine: bombsIndex.includes(index),
-    hasFlag: false,
   }));
 
   //   console.log(blocks);
@@ -34,7 +33,11 @@ function BlockBox({ width = "240px", height = "240px" }) {
   return (
     <div style={blockBoxStyle}>
       {blocks.map((block) => (
-        <BlockItem key={block.index} isMine={block.isMine} />
+        <BlockItem
+          key={block.index}
+          isMine={block.isMine}
+          hasFlag={block.hasFlag}
+        />
       ))}
     </div>
   );
