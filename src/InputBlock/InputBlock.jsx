@@ -1,29 +1,29 @@
 import PropTypes from "prop-types";
-import style from "./InputBlock.module.css";
+import { Box, Select } from "@chakra-ui/react";
 
-function InputBlock({ placeholder, inputChange, min, step, max }) {
-  const handleInputChange = (e) => {
+function InputBlock({ inputChange }) {
+  const handleSelectChange = (e) => {
     inputChange(e.target.value);
   };
+
   return (
-    <input
-      className={style.input}
-      placeholder={placeholder}
-      type="number"
-      min={min}
-      step={step}
-      max={max}
-      onChange={handleInputChange}
-    ></input>
+    <Box>
+      <p>Field size </p>
+      <Select onChange={handleSelectChange} variant="flushed">
+        <option value="240">240х240</option>
+        <option value="264">264х264</option>
+        <option value="288">288х288</option>
+        <option value="312">312х312</option>
+      </Select>
+    </Box>
   );
 }
-
 export default InputBlock;
 
 InputBlock.propTypes = {
   placeholder: PropTypes.string,
   inputChange: PropTypes.func,
-  min: PropTypes.string,
-  step: PropTypes.string,
-  max: PropTypes.string,
+  min: PropTypes.number,
+  step: PropTypes.number,
+  max: PropTypes.number,
 };

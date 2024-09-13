@@ -1,51 +1,90 @@
 import PropTypes from "prop-types";
 import style from "./BlockItem.module.css";
 import Icon from "../Icon/Icon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function BlockItem({ isMine }) {
+function BlockItem({
+  id,
+  isMine,
+  numberOfMinesAround,
+  setIsLost,
+  isLost,
+  setIsGameStarted,
+  isGameStarted,
+  isOpen,
+  openBlock,
+  setIsLose,
+  isLose,
+}) {
   const [hasFlag, setHasFlag] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
-  const onBlockClick = (e) => {
-    if (hasFlag) return;
+  const handleBlockClick = () => {
+    if (hasFlag || isOpen) return;
 
     if (isMine) {
-      e.currentTarget.classList.remove(style.hidden);
-      e.currentTarget.classList.add(style.hasBomb);
+      setIsLost(true);
+      setIsLose(true);
+      alert("You have lose :(");
+    } else {
+      openBlock(id);
     }
-    if (isOpen) return;
-    setIsOpen(true);
-    e.currentTarget.classList.remove(style.hidden);
-    e.currentTarget.classList.add(style.block);
   };
 
-  const onRightMouseClick = (e) => {
+  const handleRightClick = (e) => {
     e.preventDefault();
-    if (isOpen) return;
-
-    setHasFlag(!hasFlag);
+    if (!isOpen && !isLose) {
+      setHasFlag((prevHasFlag) => !prevHasFlag);
+    }
   };
-  return (
-    <button
-      onContextMenu={onRightMouseClick}
-      type="button"
-      onClick={onBlockClick}
-      className={style.hidden}
-    >
+
+  useEffect(() => {
+    if (isLost && isMine) {
+      openBlock(id);
+    }
+  }, [isLost, isMine, id]);
+
+  const renderBlockContent = () => {
+    if (isOpen && !isMine) {
+      return <span>{numberOfMinesAround || ""}</span>;
+    }
+
+    if (isOpen && isMine && isLost) {
+      return <Icon width="20px" height="20px" fill="red" id="icon-bomb" />;
+    }
+
+    return (
       <Icon
         width="20px"
         height="20px"
         fill="red"
         id={hasFlag ? "icon-flag" : ""}
       />
+    );
+  };
+
+  return (
+    <button
+      onContextMenu={handleRightClick}
+      type="button"
+      onClick={handleBlockClick}
+      className={isOpen || (isLost && isMine) ? style.block : style.hidden}
+    >
+      {renderBlockContent()}
     </button>
   );
 }
-
 export default BlockItem;
 
 BlockItem.propTypes = {
   isMine: PropTypes.bool,
-  // isOpen: PropTypes.bool,
+  numberOfMinesAround: PropTypes.number,
+  isLost: PropTypes.bool,
+  setIsLost: PropTypes.func,
+  setIsGameStarted: PropTypes.func,
+  isGameStarted: PropTypes.bool,
+  isOpen: PropTypes.bool,
+  openBlock: PropTypes.func,
+  id: PropTypes.number,
+  isLose: PropTypes.bool,
+  setIsLose: PropTypes.func,
 };

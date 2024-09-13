@@ -3,52 +3,53 @@ import BlockBox from "./BlockBox/BlockBox";
 import InputBlock from "./InputBlock/InputBlock";
 
 import style from "./App.module.css";
+import SelectorBlock from "./SelectorBlock/SelectorBlock";
+import RestartButton from "./RestartButton/RestartButton";
 
 function App() {
-  const [width, setWidth] = useState(240);
-  const [height, setHeight] = useState(240);
+  const [size, setSize] = useState(240);
   const [bombNumber, setBombNumber] = useState(10);
+  const [isLose, setIsLose] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
-  const inputWidthChange = (value) => {
-    setWidth(value);
-  };
-  const inputHeightChange = (value) => {
-    setHeight(value);
+  const handleRestart = () => {
+    setIsGameStarted(false);
+    setIsLose(false);
   };
 
-  const inputBombChange = (value) => {
-    setBombNumber(value);
+  const inputSizeChange = (value) => {
+    if (!isGameStarted) {
+      setSize(value);
+    }
+  };
+
+  const selectorBombChange = (value) => {
+    if (!isGameStarted) {
+      setBombNumber(value);
+    }
   };
 
   return (
-    <>
+    <div className={style.container}>
       <h1>Saper</h1>
       <div className={style.inputWrapper}>
-        <InputBlock
-          placeholder="Choose width"
-          inputChange={inputWidthChange}
-          min="240"
-          step="24"
-          max="480"
-        />
-        <InputBlock
-          placeholder="Choose height"
-          inputChange={inputHeightChange}
-          min="240"
-          step="24"
-          max="480"
-        />
-        <InputBlock
-          placeholder="Bombs number"
-          inputChange={inputBombChange}
-          min="10"
-          step="5"
-          max="25"
+        <InputBlock inputChange={inputSizeChange} />
+        <SelectorBlock
+          selectorChange={selectorBombChange}
+          isGameStarted={isGameStarted}
         />
       </div>
-
-      <BlockBox width={width} height={height} bombNumber={bombNumber} />
-    </>
+      <BlockBox
+        width={+size}
+        height={+size}
+        bombNumber={+bombNumber}
+        isLose={isLose}
+        setIsLose={setIsLose}
+        setIsGameStarted={setIsGameStarted}
+        isGameStarted={isGameStarted}
+      />
+      <RestartButton handleRestart={handleRestart} />
+    </div>
   );
 }
 
