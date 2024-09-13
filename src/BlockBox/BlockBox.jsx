@@ -6,8 +6,9 @@ function BlockBox({
   width = 240,
   height = 240,
   bombNumber,
+  bombsIndex,
   setIsGameStarted,
-  isLose,
+  // isLose,
   setIsLose,
   isGameStarted,
 }) {
@@ -19,10 +20,6 @@ function BlockBox({
   const columns = width / blockSize;
 
   useEffect(() => {
-    const bombsIndex = [...Array(Number(rows * columns)).keys()]
-      .sort(() => Math.random() - 0.5)
-      .slice(0, bombNumber);
-
     const findNumbersBombsAround = (index) => {
       const row = Math.floor(index / columns);
       const column = index % columns;
@@ -34,6 +31,15 @@ function BlockBox({
           if (i === 0 && j === 0) continue;
           const neighborRow = row + i;
           const neighborCol = column + j;
+
+          if (
+            neighborRow < 0 ||
+            neighborRow >= rows ||
+            neighborCol < 0 ||
+            neighborCol >= columns
+          ) {
+            continue;
+          }
 
           const neighborIndex = neighborRow * columns + neighborCol;
           if (bombsIndex.includes(neighborIndex)) {
@@ -54,22 +60,31 @@ function BlockBox({
       })
     );
     setBlocks(initialBlocksArray);
-  }, [rows, columns, bombNumber]);
+  }, [rows, columns, bombNumber, bombsIndex]);
 
   const openBlock = (id) => {
+    setIsGameStarted(true);
+
     setBlocks((prevBlocks) =>
       prevBlocks.map((block) =>
         block.id === id ? { ...block, isOpen: true } : block
       )
     );
-    setIsGameStarted(true);
   };
 
   const openAllBlock = () => {
     setBlocks((prevBlocks) =>
       prevBlocks.map((block) => ({ ...block, isOpen: true }))
     );
-    setIsGameStarted(true);
+  };
+
+  const handleRestart = () => {
+    setBlocks((prevBlocks) =>
+      prevBlocks.map((block) => ({
+        ...block,
+        isOpen: false,
+      }))
+    );
   };
 
   const blockBoxStyle = {
@@ -92,11 +107,12 @@ function BlockBox({
           isLost={isLost}
           isOpen={block.isOpen}
           openBlock={openBlock}
-          isLose={isLose}
+          // isLose={isLose}
           setIsLose={setIsLose}
           setIsGameStarted={setIsGameStarted}
           isGameStarted={isGameStarted}
           openAllBlock={openAllBlock}
+          handleRestart={handleRestart}
         />
       ))}
     </div>
@@ -110,4 +126,8 @@ BlockBox.propTypes = {
   height: PropTypes.number,
   bombNumber: PropTypes.number,
   setIsGameStarted: PropTypes.func,
+  isLost: PropTypes.bool,
+  setIsLose: PropTypes.func,
+  isGameStarted: PropTypes.bool,
+  bombsIndex: PropTypes.arrayOf(PropTypes.number),
 };

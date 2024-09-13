@@ -9,13 +9,14 @@ function BlockItem({
   numberOfMinesAround,
   setIsLost,
   isLost,
-  setIsGameStarted,
+  // setIsGameStarted,
   isGameStarted,
   isOpen,
   openBlock,
   openAllBlock,
-  setIsLose,
+  // setIsLose,
   isLose,
+  // handleRestart,
 }) {
   const [hasFlag, setHasFlag] = useState(false);
 
@@ -24,12 +25,11 @@ function BlockItem({
 
     if (isMine) {
       setIsLost(true);
-      setIsLose(true);
+      // setIsLose(true);
       alert("You have lose :(");
       openAllBlock();
-    } else {
-      openBlock(id);
     }
+    openBlock(id);
   };
 
   const handleRightClick = (e) => {
@@ -46,11 +46,11 @@ function BlockItem({
   }, [isLost, isMine, id]);
 
   const renderBlockContent = () => {
-    if (isOpen && !isMine) {
+    if (isOpen && !isMine && isGameStarted) {
       return <span>{numberOfMinesAround || ""}</span>;
     }
 
-    if (isOpen && isMine && isLost) {
+    if (isOpen && isMine && isLost && isGameStarted) {
       return <Icon width="20px" height="20px" fill="red" id="icon-bomb" />;
     }
 
@@ -69,7 +69,14 @@ function BlockItem({
       onContextMenu={handleRightClick}
       type="button"
       onClick={handleBlockClick}
-      className={isOpen || (isLost && isMine) ? style.block : style.hidden}
+      className={
+        !isGameStarted
+          ? style.hidden
+          : isOpen || (isLost && isMine)
+          ? style.block
+          : style.hidden
+      }
+      // className={isOpen || (isLost && isMine) ? style.block : style.hidden}
     >
       {renderBlockContent()}
     </button>
@@ -86,7 +93,9 @@ BlockItem.propTypes = {
   isGameStarted: PropTypes.bool,
   isOpen: PropTypes.bool,
   openBlock: PropTypes.func,
+  openAllBlock: PropTypes.func,
   id: PropTypes.number,
   isLose: PropTypes.bool,
   setIsLose: PropTypes.func,
+  handleRestart: PropTypes.func,
 };
