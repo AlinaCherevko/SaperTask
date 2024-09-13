@@ -13,6 +13,7 @@ function BlockItem({
   isGameStarted,
   isOpen,
   openBlock,
+  openAllBlock,
   setIsLose,
   isLose,
 }) {
@@ -25,6 +26,7 @@ function BlockItem({
       setIsLost(true);
       setIsLose(true);
       alert("You have lose :(");
+      openAllBlock();
     } else {
       openBlock(id);
     }
@@ -39,7 +41,7 @@ function BlockItem({
 
   useEffect(() => {
     if (isLost && isMine) {
-      openBlock(id);
+      openAllBlock(id);
     }
   }, [isLost, isMine, id]);
 

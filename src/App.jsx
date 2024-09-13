@@ -20,12 +20,14 @@ function App() {
   const inputSizeChange = (value) => {
     if (!isGameStarted) {
       setSize(value);
+      return;
     }
   };
 
   const selectorBombChange = (value) => {
     if (!isGameStarted) {
       setBombNumber(value);
+      return;
     }
   };
 

@@ -65,6 +65,13 @@ function BlockBox({
     setIsGameStarted(true);
   };
 
+  const openAllBlock = () => {
+    setBlocks((prevBlocks) =>
+      prevBlocks.map((block) => ({ ...block, isOpen: true }))
+    );
+    setIsGameStarted(true);
+  };
+
   const blockBoxStyle = {
     width: `${width}px`,
     height: `${height}px`,
@@ -89,6 +96,7 @@ function BlockBox({
           setIsLose={setIsLose}
           setIsGameStarted={setIsGameStarted}
           isGameStarted={isGameStarted}
+          openAllBlock={openAllBlock}
         />
       ))}
     </div>
