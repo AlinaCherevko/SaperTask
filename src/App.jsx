@@ -29,7 +29,6 @@ function App() {
     console.log("гра закінчена");
     console.log(isGameStarted);
     setIsGameStarted(false);
-
     // setIsLose(false);
     generateBombs();
   };

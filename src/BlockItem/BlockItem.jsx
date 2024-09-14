@@ -36,21 +36,17 @@ function BlockItem({
   };
 
   const handleRightClick = (e) => {
+    setIsGameStarted(true);
     e.preventDefault();
     if (!isOpen && !isLose) {
       setHasFlag((prevHasFlag) => !prevHasFlag);
     }
   };
 
-  // useEffect(() => {
-  //   if (isLost && isMine) {
-  //     openAllBlock(id);
-  //   }
-  // }, [isLost, isMine]);
-
   useEffect(() => {
     if (!isGameStarted) {
       handleRestart();
+      if (hasFlag && !isGameStarted) setHasFlag(false);
     }
   }, [isGameStarted]);
 
@@ -85,7 +81,6 @@ function BlockItem({
           ? style.block
           : style.hidden
       }
-      // className={isOpen || (isLost && isMine) ? style.block : style.hidden}
     >
       {renderBlockContent()}
     </button>
