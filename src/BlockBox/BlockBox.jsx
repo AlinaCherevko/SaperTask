@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import BlockItem from "../Blockitem/Blockitem";
+import BlockItem from "../BlockItem/BlockItem";
 import PropTypes from "prop-types";
 
 function BlockBox({
@@ -81,6 +81,7 @@ function BlockBox({
   };
 
   const handleRestart = () => {
+    setIsLost(false);
     console.log("handle restart");
     setBlocks((prevBlocks) =>
       prevBlocks.map((block) => ({
