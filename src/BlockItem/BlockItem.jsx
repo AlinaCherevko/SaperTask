@@ -9,14 +9,14 @@ function BlockItem({
   numberOfMinesAround,
   setIsLost,
   isLost,
-  // setIsGameStarted,
+  setIsGameStarted,
   isGameStarted,
   isOpen,
   openBlock,
   openAllBlock,
   // setIsLose,
   isLose,
-  // handleRestart,
+  handleRestart,
 }) {
   const [hasFlag, setHasFlag] = useState(false);
 
@@ -28,8 +28,11 @@ function BlockItem({
       // setIsLose(true);
       alert("You have lose :(");
       openAllBlock();
+      setIsGameStarted(false);
     }
-    openBlock(id);
+    if (!isGameStarted || !isOpen) {
+      openBlock(id);
+    }
   };
 
   const handleRightClick = (e) => {
@@ -39,11 +42,17 @@ function BlockItem({
     }
   };
 
+  // useEffect(() => {
+  //   if (isLost && isMine) {
+  //     openAllBlock(id);
+  //   }
+  // }, [isLost, isMine]);
+
   useEffect(() => {
-    if (isLost && isMine) {
-      openAllBlock(id);
+    if (!isGameStarted) {
+      handleRestart();
     }
-  }, [isLost, isMine, id]);
+  }, [isGameStarted]);
 
   const renderBlockContent = () => {
     if (isOpen && !isMine && isGameStarted) {

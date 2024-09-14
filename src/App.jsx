@@ -26,6 +26,8 @@ function App() {
   };
 
   const handleRestart = () => {
+    console.log("гра закінчена");
+    console.log(isGameStarted);
     setIsGameStarted(false);
 
     // setIsLose(false);

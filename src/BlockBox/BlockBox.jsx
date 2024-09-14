@@ -63,6 +63,7 @@ function BlockBox({
   }, [rows, columns, bombNumber, bombsIndex]);
 
   const openBlock = (id) => {
+    console.log("open block click");
     setIsGameStarted(true);
 
     setBlocks((prevBlocks) =>
@@ -73,12 +74,14 @@ function BlockBox({
   };
 
   const openAllBlock = () => {
+    console.log("open all block click");
     setBlocks((prevBlocks) =>
       prevBlocks.map((block) => ({ ...block, isOpen: true }))
     );
   };
 
   const handleRestart = () => {
+    console.log("handle restart");
     setBlocks((prevBlocks) =>
       prevBlocks.map((block) => ({
         ...block,
