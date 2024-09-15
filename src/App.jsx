@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BlockBox from "./BlockBox/BlockBox";
 import InputBlock from "./InputBlock/InputBlock";
 
@@ -24,6 +24,10 @@ function App() {
       .slice(0, bombNumber);
     setBombs(bombsIndex);
   };
+
+  useEffect(() => {
+    generateBombs();
+  }, [bombNumber, size]);
 
   const handleRestart = () => {
     console.log("гра закінчена");
