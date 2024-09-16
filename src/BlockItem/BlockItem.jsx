@@ -14,31 +14,33 @@ function BlockItem({
   isOpen,
   openBlock,
   openAllBlock,
-  // setIsLose,
-  isLose,
+  setIsGameWon,
+  isGameWon,
   handleRestart,
 }) {
   const [hasFlag, setHasFlag] = useState(false);
 
   const handleBlockClick = () => {
-    if (hasFlag || isOpen) return;
+    if (hasFlag || isOpen || isGameWon) return;
 
     if (isMine) {
       setIsLost(true);
-      // setIsLose(true);
-      alert("You have lose :(");
+      setIsGameWon(false);
       openAllBlock();
-      setIsGameStarted(false);
+      alert("You have lose :(");
     }
-    if (!isGameStarted || !isOpen) {
+    if (!isGameStarted || !isOpen || !hasFlag) {
       openBlock(id);
     }
   };
 
   const handleRightClick = (e) => {
-    setIsGameStarted(true);
+    if (!isGameStarted) {
+      setIsGameStarted(true);
+      console.log("start game");
+    }
     e.preventDefault();
-    if (!isOpen && !isLose) {
+    if (!isOpen) {
       setHasFlag((prevHasFlag) => !prevHasFlag);
     }
   };
@@ -99,7 +101,7 @@ BlockItem.propTypes = {
   openBlock: PropTypes.func,
   openAllBlock: PropTypes.func,
   id: PropTypes.number,
-  isLose: PropTypes.bool,
-  setIsLose: PropTypes.func,
+  isGameWon: PropTypes.bool,
+  setIsGameWon: PropTypes.func,
   handleRestart: PropTypes.func,
 };

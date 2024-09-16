@@ -9,8 +9,8 @@ import RestartButton from "./RestartButton/RestartButton";
 function App() {
   const [size, setSize] = useState(240);
   const [bombNumber, setBombNumber] = useState(10);
-  // const [isLose, setIsLose] = useState(false);
-  const [bombs, setBombs] = useState([5, 8, 10, 29, 17, 80, 90, 67, 39, 44]);
+  const [isGameWon, setIsGameWon] = useState(false);
+  const [bombs, setBombs] = useState([]);
   const [isGameStarted, setIsGameStarted] = useState(false);
 
   const blockSize = 24;
@@ -33,7 +33,7 @@ function App() {
     console.log("гра закінчена");
     console.log(isGameStarted);
     setIsGameStarted(false);
-    // setIsLose(false);
+    setIsGameWon(false);
     generateBombs();
   };
 
@@ -65,8 +65,8 @@ function App() {
         width={+size}
         height={+size}
         bombNumber={+bombNumber}
-        // isLose={isLose}
-        // setIsLose={setIsLose}
+        isGameWon={isGameWon}
+        setIsGameWon={setIsGameWon}
         setIsGameStarted={setIsGameStarted}
         isGameStarted={isGameStarted}
         handleRestart={handleRestart}
